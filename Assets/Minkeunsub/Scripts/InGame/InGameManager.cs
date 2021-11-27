@@ -17,13 +17,19 @@ public class InGameManager : Singleton<InGameManager>
     public static int Grid_X = 12;
     public static int Grid_Y = 8;
     public GridState[,] InGameGrid = new GridState[Grid_X, Grid_Y];
+    public GameObject[,] GridObjList = new GameObject[Grid_X, Grid_Y];
 
 
     public PlayerController player;
 
     int player_x, player_y;
+    int first_x, first_y;
 
-    public GameObject GridObj;
+    public GameObject GridPrefab;
+
+    public int stage; //range to 1~8
+
+    public int coupleCnt;
 
     protected override void Awake()
     {
@@ -38,12 +44,50 @@ public class InGameManager : Singleton<InGameManager>
             {
                 InGameGrid[x, y] = GridState.BLANK;
                 Vector3 grid_pos = new Vector3(x - 7, y - 4, 0);
-                Instantiate(GridObj, grid_pos, Quaternion.identity, transform);
+                GridObjList[x, y] = Instantiate(GridPrefab, grid_pos, Quaternion.identity, transform);
             }
+        }
+
+        for (int i = 0; i < stage; i++)
+        {
+        B:;
+            first_x = i > 2 ? (i - 3) * 4 : i * 4;
+            first_y = (int)(i / 3) * 4;
+
+            int stove_rand = Random.Range(0, 16);
+            int cur_cnt = 0;
+            for (int x = 0; x < 4; x++)
+            {
+                for (int y = 0; y < 4; y++)
+                {
+                    if(cur_cnt == stove_rand)
+                    {
+                        InGameGrid[first_x + x, first_y + y] = GridState.STOVE;
+                        GridObjList[first_x + x, first_y + y].GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
+                        goto A;
+                    }
+                    else if(x == 0 && y == 0 && stove_rand == 0)
+                    {
+                        goto B;
+                    }
+                    else
+                    {
+                        cur_cnt++;
+                    }
+                }
+            }
+        A:;
         }
 
         player_x = 0;
         player_y = 0;
+
+        int couple_rand_X = Random.Range(0, 12);
+        int couple_rand_Y = Random.Range(0, 8);
+        while (InGameGrid[couple_rand_X, couple_rand_Y] != GridState.BLANK)
+        {
+
+        }
     }
 
     void Start()
