@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public enum GridState
@@ -28,16 +29,29 @@ public class InGameManager : Singleton<InGameManager>
     public GameObject GridPrefab;
 
     public int stage; //range to 1~8
+    public float score;
 
     public int coupleCnt;
     public int giftCnt;
 
+    public float maxMatch;
+    public float matchGauge;
+
+    [Header("UI Objects")]
+    public Image hpBar;
+    public Text stageTxt;
+    public Text scoreTxt;
+
+    [Header("Sprites")]
     public Sprite gift_default;
     public Sprite gift_opened;
+    public Sprite[] grass;
+
 
     protected override void Awake()
     {
         GridInitialSetting();
+        matchGauge = maxMatch;
     }
 
     void GridInitialSetting()
@@ -47,8 +61,10 @@ public class InGameManager : Singleton<InGameManager>
             for (int y = 0; y < Grid_Y; y++)
             {
                 InGameGrid[x, y] = GridState.BLANK;
-                Vector3 grid_pos = new Vector3(x - 7, y - 4, 0);
+                Vector3 grid_pos = new Vector3(x - 7 + 1.46f, y - 4, 0);
+                int grass_rand = Random.Range(0, grass.Length);
                 GridObjList[x, y] = Instantiate(GridPrefab, grid_pos, Quaternion.identity, transform);
+                GridObjList[x, y].GetComponent<SpriteRenderer>().sprite = grass[grass_rand];
             }
         }
 
@@ -98,8 +114,8 @@ public class InGameManager : Singleton<InGameManager>
             }
 
             InGameGrid[couple_rand_X, couple_rand_Y] = GridState.COUPLE;
-            GridObjList[couple_rand_X, couple_rand_Y].GetComponent<SpriteRenderer>().color = new Color(0, 1, 0);
             GridObjList[couple_rand_X, couple_rand_Y].AddComponent<Couple>();
+            GridObjList[couple_rand_X, couple_rand_Y].GetComponent<SpriteRenderer>().color = new Color(0, 1, 0);
         }
 
         for (int i = 0; i < giftCnt; i++)
@@ -113,8 +129,6 @@ public class InGameManager : Singleton<InGameManager>
             }
 
             InGameGrid[gift_rand_X, gift_rand_Y] = GridState.GIFT;
-            GridObjList[gift_rand_X, gift_rand_Y].GetComponent<SpriteRenderer>().color = new Color(0, 0, 1);
-            GridObjList[gift_rand_X, gift_rand_Y].GetComponent<SpriteRenderer>().drawMode = SpriteDrawMode.Simple;
             GridObjList[gift_rand_X, gift_rand_Y].AddComponent<Present>();
             GridObjList[gift_rand_X, gift_rand_Y].GetComponent<Present>().defaultsprite = gift_default;
             GridObjList[gift_rand_X, gift_rand_Y].GetComponent<Present>().opensprite = gift_opened;
@@ -131,6 +145,19 @@ public class InGameManager : Singleton<InGameManager>
         PlayerMove();
         PlayerPosMove();
         PlayerAttack();
+        MatchesControll();
+        UIControll();
+    }
+
+    void UIControll()
+    {
+        stageTxt.text = "Stage " + stage.ToString();
+        scoreTxt.text = "Score: " + score.ToString();
+    }
+
+    void MatchesControll()
+    {
+        hpBar.fillAmount = matchGauge / maxMatch;
     }
 
     void PlayerAttack()
@@ -229,7 +256,7 @@ public class InGameManager : Singleton<InGameManager>
 
     void PlayerPosMove()
     {
-        Vector3 playerPos = new Vector3(player_x - 7, player_y - 4, 0);
+        Vector3 playerPos = new Vector3(player_x - 7 + 1.46f, player_y - 4, 0);
         player.transform.position = playerPos;
     }
 }
