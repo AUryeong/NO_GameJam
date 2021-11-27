@@ -30,6 +30,7 @@ public class InGameManager : Singleton<InGameManager>
     public int stage; //range to 1~8
 
     public int coupleCnt;
+    public int giftCnt;
 
     protected override void Awake()
     {
@@ -81,12 +82,34 @@ public class InGameManager : Singleton<InGameManager>
 
         player_x = 0;
         player_y = 0;
+        InGameGrid[player_x, player_y] = GridState.PLAYER;
 
-        int couple_rand_X = Random.Range(0, 12);
-        int couple_rand_Y = Random.Range(0, 8);
-        while (InGameGrid[couple_rand_X, couple_rand_Y] != GridState.BLANK)
+        for (int i = 0; i < coupleCnt; i++)
         {
+            int couple_rand_X = Random.Range(0, 12);
+            int couple_rand_Y = Random.Range(0, 8);
+            while (InGameGrid[couple_rand_X, couple_rand_Y] != GridState.BLANK)
+            {
+                couple_rand_X = Random.Range(0, 12);
+                couple_rand_Y = Random.Range(0, 8);
+            }
 
+            InGameGrid[couple_rand_X, couple_rand_Y] = GridState.COUPLE;
+            GridObjList[couple_rand_X, couple_rand_Y].GetComponent<SpriteRenderer>().color = new Color(0, 1, 0);
+        }
+
+        for (int i = 0; i < giftCnt; i++)
+        {
+            int gift_rand_X = Random.Range(0, 12);
+            int gift_rand_Y = Random.Range(0, 8);
+            while (InGameGrid[gift_rand_X, gift_rand_Y] != GridState.BLANK)
+            {
+                gift_rand_X = Random.Range(0, 12);
+                gift_rand_Y = Random.Range(0, 8);
+            }
+
+            InGameGrid[gift_rand_X, gift_rand_Y] = GridState.GIFT;
+            GridObjList[gift_rand_X, gift_rand_Y].GetComponent<SpriteRenderer>().color = new Color(0, 0, 1);
         }
     }
 
@@ -105,28 +128,44 @@ public class InGameManager : Singleton<InGameManager>
     {
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if (player_y > 0)
+            if(InGameGrid[player_x, player_y - 1] == GridState.COUPLE && player_y - 1 > 0)
+            {
+                return;
+            }
+            else if (player_y > 0)
             {
                 player_y--;
             }
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            if (player_y < Grid_Y - 1)
+            if(InGameGrid[player_x, player_y + 1] == GridState.COUPLE && player_y + 1 < Grid_Y - 1)
+            {
+                return;
+            }
+            else if (player_y < Grid_Y - 1)
             {
                 player_y++;
             }
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            if (player_x > 0)
+            if (InGameGrid[player_x - 1, player_y] == GridState.COUPLE && player_x - 1 > 0)
+            {
+                return;
+            }
+            else if (player_x > 0)
             {
                 player_x--;
             }
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            if (player_x < Grid_X - 1)
+            if (InGameGrid[player_x + 1, player_y] == GridState.COUPLE && player_x + 1 < Grid_X - 1)
+            {
+                return;
+            }
+            else if (player_x < Grid_X - 1)
             {
                 player_x++;
             }

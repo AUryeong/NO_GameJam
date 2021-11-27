@@ -198,6 +198,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 571930331}
     - target: {fileID: 2374866025965862456, guid: e0722f285e526f64ea67e741a8ad0eae, type: 3}
+      propertyPath: giftCnt
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2374866025965862456, guid: e0722f285e526f64ea67e741a8ad0eae, type: 3}
+      propertyPath: coupleCnt
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2374866025965862456, guid: e0722f285e526f64ea67e741a8ad0eae, type: 3}
       propertyPath: GridPrefab
       value: 
       objectReference: {fileID: 3719945150987830018, guid: eb5761f2b307d8843807557375e0645d, type: 3}
