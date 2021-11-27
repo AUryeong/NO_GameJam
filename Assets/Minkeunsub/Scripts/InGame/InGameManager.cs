@@ -39,7 +39,7 @@ public class InGameManager : Singleton<InGameManager>
         }
 
         player_x = 0;
-        player_y = 7;
+        player_y = 0;
     }
 
     void Start()
@@ -55,14 +55,14 @@ public class InGameManager : Singleton<InGameManager>
 
     void PlayerMove()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             if (player_y > 0)
             {
                 player_y--;
             }
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             if (player_y < Grid_Y - 1)
             {
@@ -89,7 +89,7 @@ public class InGameManager : Singleton<InGameManager>
 
     void PlayerPosMove()
     {
-        Vector3 playerPos = new Vector3(player_x, player_y, 0);
+        Vector3 playerPos = new Vector3(player_x - 7, player_y -  4, 0);
         player.transform.position = playerPos;
     }
 }
