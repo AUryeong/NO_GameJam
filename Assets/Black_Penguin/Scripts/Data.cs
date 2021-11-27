@@ -5,7 +5,7 @@ using UnityEngine;
 public class Data : Singleton<Data>
 {
     public int score;
-    public int stage;
+    public int stage = 1;
 
     void Highscoreset(int value)
     {

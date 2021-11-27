@@ -49,6 +49,10 @@ public class Stove : BaseObject
                 active = true;
                 activeduration = 0;
                 duration = 0;
+                if (stoves.Contains(this))
+                {
+                    stoves.Remove(this);
+                }
                 gameObject.GetComponent<SpriteRenderer>().sprite = activestove;
             }
         }
@@ -69,6 +73,10 @@ public class Stove : BaseObject
         if (Gage <= 0)
         {
             gameObject.GetComponent<SpriteRenderer>().sprite = offstove;
+            if (!stoves.Contains(this))
+            {
+                stoves.Add(this);
+            }
             active = false;
         }
     }

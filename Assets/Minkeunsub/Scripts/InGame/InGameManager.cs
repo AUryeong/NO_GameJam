@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public enum GridState
@@ -70,6 +71,8 @@ public class InGameManager : Singleton<InGameManager>
     
     void GridInitialSetting()
     {
+        stage = Singleton<Data>.Instance.stage;
+        Stove.stoves = new List<Stove>();
         for (int x = 0; x < Grid_X; x++)
         {
             for (int y = 0; y < Grid_Y; y++)
@@ -178,6 +181,7 @@ public class InGameManager : Singleton<InGameManager>
             PlayerAttack();
             MatchesControll();
             UIControll();
+            ClearCheck();
         }
     }
 
@@ -187,6 +191,14 @@ public class InGameManager : Singleton<InGameManager>
         scoreTxt.text = "Score: " + score.ToString();
     }
 
+    void ClearCheck()
+    {
+        if(Stove.stoves.Count >= Singleton<Data>.Instance.stage)
+        {
+            Singleton<Data>.Instance.stage++;
+            SceneManager.LoadScene("D-InGameScene");
+        }
+    }
     void MatchesControll()
     {
         hpBar.fillAmount = matchGauge / maxMatch;
