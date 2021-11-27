@@ -10,7 +10,6 @@ public enum GridState
     COUPLE,
     COUPLESTUN,
     GIFT,
-    PLAYER
 }
 
 public class InGameManager : Singleton<InGameManager>
@@ -84,7 +83,6 @@ public class InGameManager : Singleton<InGameManager>
 
         player_x = 0;
         player_y = 0;
-        InGameGrid[player_x, player_y] = GridState.PLAYER;
 
         for (int i = 0; i < coupleCnt; i++)
         {
@@ -221,8 +219,6 @@ public class InGameManager : Singleton<InGameManager>
                 player_x++;
             }
         }
-
-        InGameGrid[player_x, player_y] = GridState.PLAYER;
     }
 
     void PlayerPosMove()
