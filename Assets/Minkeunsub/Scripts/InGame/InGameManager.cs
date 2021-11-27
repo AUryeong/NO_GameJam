@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public enum GridState
@@ -33,6 +34,7 @@ public class InGameManager : Singleton<InGameManager>
 
     public int coupleCnt;
     public int giftCnt;
+    public bool starting = false;
 
     public float maxMatch;
     public float matchGauge;
@@ -41,30 +43,56 @@ public class InGameManager : Singleton<InGameManager>
     public Image hpBar;
     public Text stageTxt;
     public Text scoreTxt;
+    public GameObject gameend;
 
     [Header("Sprites")]
     public Sprite gift_default;
     public Sprite gift_opened;
+    public Sprite gift_fired;
+    public Sprite stove_active;
+    public Sprite stove_off;
+    public Sprite stove_bomb;
     public Sprite[] grass;
 
 
+    public void GameEnd()
+    {
+        Time.timeScale = 0;
+        starting = false;
+        gameend.SetActive(true);
+    }
+
     protected override void Awake()
     {
+        gameend.SetActive(false);
         GridInitialSetting();
         matchGauge = maxMatch;
     }
-
+    
     void GridInitialSetting()
     {
+        stage = Singleton<Data>.Instance.stage;
+        Stove.stoves = new List<Stove>();
         for (int x = 0; x < Grid_X; x++)
         {
             for (int y = 0; y < Grid_Y; y++)
             {
                 InGameGrid[x, y] = GridState.BLANK;
                 Vector3 grid_pos = new Vector3(x - 7 + 1.46f, y - 4, 0);
-                int grass_rand = Random.Range(0, grass.Length);
                 GridObjList[x, y] = Instantiate(GridPrefab, grid_pos, Quaternion.identity, transform);
-                GridObjList[x, y].GetComponent<SpriteRenderer>().sprite = grass[grass_rand];
+                float random = Random.Range(0, 100);
+                if (random <= 70)
+                {
+                    GridObjList[x, y].GetComponent<SpriteRenderer>().sprite = grass[2];
+                }
+                else if (random <= 85)
+                {
+                    GridObjList[x, y].GetComponent<SpriteRenderer>().sprite = grass[0];
+                }
+                else
+                {
+                    GridObjList[x, y].GetComponent<SpriteRenderer>().sprite = grass[1];
+                }
             }
         }
 
@@ -83,8 +111,10 @@ public class InGameManager : Singleton<InGameManager>
                     if (cur_cnt == stove_rand)
                     {
                         InGameGrid[first_x + x, first_y + y] = GridState.STOVE;
-                        GridObjList[first_x + x, first_y + y].GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
                         GridObjList[first_x + x, first_y + y].AddComponent<Stove>();
+                        GridObjList[first_x + x, first_y + y].GetComponent<Stove>().activestove = stove_active;
+                        GridObjList[first_x + x, first_y + y].GetComponent<Stove>().offstove = stove_off;
+                        GridObjList[first_x + x, first_y + y].GetComponent<Stove>().bombstove = stove_bomb;
                         goto A;
                     }
                     else if (x == 0 && y == 0 && stove_rand == 0)
@@ -102,6 +132,7 @@ public class InGameManager : Singleton<InGameManager>
 
         player_x = 0;
         player_y = 0;
+        starting = true;
 
         for (int i = 0; i < coupleCnt; i++)
         {
@@ -132,6 +163,7 @@ public class InGameManager : Singleton<InGameManager>
             GridObjList[gift_rand_X, gift_rand_Y].AddComponent<Present>();
             GridObjList[gift_rand_X, gift_rand_Y].GetComponent<Present>().defaultsprite = gift_default;
             GridObjList[gift_rand_X, gift_rand_Y].GetComponent<Present>().opensprite = gift_opened;
+            GridObjList[gift_rand_X, gift_rand_Y].GetComponent<Present>().firedsprite = gift_fired;
         }
     }
 
@@ -142,11 +174,15 @@ public class InGameManager : Singleton<InGameManager>
 
     void Update()
     {
-        PlayerMove();
-        PlayerPosMove();
-        PlayerAttack();
-        MatchesControll();
-        UIControll();
+        if (starting)
+        {
+            PlayerMove();
+            PlayerPosMove();
+            PlayerAttack();
+            MatchesControll();
+            UIControll();
+            ClearCheck();
+        }
     }
 
     void UIControll()
@@ -155,6 +191,14 @@ public class InGameManager : Singleton<InGameManager>
         scoreTxt.text = "Score: " + score.ToString();
     }
 
+    void ClearCheck()
+    {
+        if(Stove.stoves.Count >= Singleton<Data>.Instance.stage)
+        {
+            Singleton<Data>.Instance.stage++;
+            SceneManager.LoadScene("D-InGameScene");
+        }
+    }
     void MatchesControll()
     {
         hpBar.fillAmount = matchGauge / maxMatch;
@@ -210,7 +254,18 @@ public class InGameManager : Singleton<InGameManager>
     {
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if (InGameGrid[player_x, player_y - 1] != GridState.BLANK && player_y - 1 >= 0)
+            if (player_y > 0 && InGameGrid[player_x, player_y - 1] == GridState.GIFT)
+            {
+                if (GridObjList[player_x, player_y - 1].GetComponent<Present>().fired)
+                {
+                    player_y--;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else if (player_y - 1 < 0 || InGameGrid[player_x, player_y - 1] != GridState.BLANK)
             {
                 return;
             }
@@ -221,7 +276,18 @@ public class InGameManager : Singleton<InGameManager>
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            if (InGameGrid[player_x, player_y + 1] != GridState.BLANK && player_y + 1 < Grid_Y )
+            if (player_y < Grid_Y - 1 && InGameGrid[player_x, player_y + 1] == GridState.GIFT)
+            {
+                if (GridObjList[player_x, player_y + 1].GetComponent<Present>().fired)
+                {
+                    player_y++;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else if (player_y + 1 >= Grid_Y || InGameGrid[player_x, player_y + 1] != GridState.BLANK)
             {
                 return;
             }
@@ -232,7 +298,18 @@ public class InGameManager : Singleton<InGameManager>
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            if (InGameGrid[player_x - 1, player_y] != GridState.BLANK && player_x - 1 >= 0)
+            if (player_x > 0 && InGameGrid[player_x - 1, player_y] == GridState.GIFT)
+            {
+                if (GridObjList[player_x - 1, player_y].GetComponent<Present>().fired)
+                {
+                    player_x--;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else if (player_x - 1 < 0 || InGameGrid[player_x - 1, player_y] != GridState.BLANK)
             {
                 return;
             }
@@ -243,7 +320,18 @@ public class InGameManager : Singleton<InGameManager>
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            if (InGameGrid[player_x + 1, player_y] != GridState.BLANK && player_x + 1 < Grid_X )
+            if (player_x < Grid_X - 1 && InGameGrid[player_x + 1, player_y] == GridState.GIFT)
+            {
+                if (GridObjList[player_x + 1, player_y].GetComponent<Present>().fired)
+                {
+                    player_x++;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else if (player_x + 1 >= Grid_X || InGameGrid[player_x + 1, player_y] != GridState.BLANK)
             {
                 return;
             }
