@@ -191,7 +191,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2374866025965862456, guid: e0722f285e526f64ea67e741a8ad0eae, type: 3}
       propertyPath: stage
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2374866025965862456, guid: e0722f285e526f64ea67e741a8ad0eae, type: 3}
       propertyPath: player
@@ -209,6 +209,14 @@ PrefabInstance:
       propertyPath: GridPrefab
       value: 
       objectReference: {fileID: 3719945150987830018, guid: eb5761f2b307d8843807557375e0645d, type: 3}
+    - target: {fileID: 2374866025965862456, guid: e0722f285e526f64ea67e741a8ad0eae, type: 3}
+      propertyPath: gift_opened
+      value: 
+      objectReference: {fileID: 21300000, guid: 2b8bb638370466a43b3f3a874c24852f, type: 3}
+    - target: {fileID: 2374866025965862456, guid: e0722f285e526f64ea67e741a8ad0eae, type: 3}
+      propertyPath: gift_default
+      value: 
+      objectReference: {fileID: 21300000, guid: 26e6886c0cac0d548b4a05c0d1172f53, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0722f285e526f64ea67e741a8ad0eae, type: 3}
 --- !u!1001 &1506708711

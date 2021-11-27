@@ -32,6 +32,9 @@ public class InGameManager : Singleton<InGameManager>
     public int coupleCnt;
     public int giftCnt;
 
+    public Sprite gift_default;
+    public Sprite gift_opened;
+
     protected override void Awake()
     {
         GridInitialSetting();
@@ -112,6 +115,8 @@ public class InGameManager : Singleton<InGameManager>
             InGameGrid[gift_rand_X, gift_rand_Y] = GridState.GIFT;
             GridObjList[gift_rand_X, gift_rand_Y].GetComponent<SpriteRenderer>().color = new Color(0, 0, 1);
             GridObjList[gift_rand_X, gift_rand_Y].AddComponent<Present>();
+            GridObjList[gift_rand_X, gift_rand_Y].GetComponent<Present>().defaultsprite = gift_default;
+            GridObjList[gift_rand_X, gift_rand_Y].GetComponent<Present>().opensprite = gift_opened;
         }
     }
 
