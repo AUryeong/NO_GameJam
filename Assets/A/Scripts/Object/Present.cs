@@ -21,6 +21,7 @@ public class Present : BaseObject
             gameObject.GetComponent<SpriteRenderer>().sprite = opensprite;
             Data.Instance.score += 50;
             opend = true;
+            Data.Instance.score += 50;
         }
     }
     public override void OnMetch()
@@ -31,6 +32,7 @@ public class Present : BaseObject
             gameObject.GetComponent<SpriteRenderer>().sprite = firedsprite;
             Data.Instance.score -= 50;
             fired = true;
+            Data.Instance.score -= 50;
         }
     }
 }

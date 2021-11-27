@@ -80,7 +80,7 @@ public class InGameManager : Singleton<InGameManager>
     
     void GridInitialSetting()
     {
-        stage = Singleton<Data>.Instance.stage;
+        stage = Data.Instance.stage;
         Stove.stoves = new List<Stove>();
         MatchDuration = 0;
         matchGauge = maxMatch;
