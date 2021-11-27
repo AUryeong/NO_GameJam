@@ -33,6 +33,7 @@ public class InGameManager : Singleton<InGameManager>
 
     public int coupleCnt;
     public int giftCnt;
+    public bool starting = false;
 
     public float maxMatch;
     public float matchGauge;
@@ -41,20 +42,32 @@ public class InGameManager : Singleton<InGameManager>
     public Image hpBar;
     public Text stageTxt;
     public Text scoreTxt;
+    public GameObject gameend;
 
     [Header("Sprites")]
     public Sprite gift_default;
     public Sprite gift_opened;
     public Sprite gift_fired;
+    public Sprite stove_active;
+    public Sprite stove_off;
+    public Sprite stove_bomb;
     public Sprite[] grass;
 
 
+    public void GameEnd()
+    {
+        Time.timeScale = 0;
+        starting = false;
+        gameend.SetActive(true);
+    }
+
     protected override void Awake()
     {
+        gameend.SetActive(false);
         GridInitialSetting();
         matchGauge = maxMatch;
     }
-
+    
     void GridInitialSetting()
     {
         for (int x = 0; x < Grid_X; x++)
@@ -95,8 +108,10 @@ public class InGameManager : Singleton<InGameManager>
                     if (cur_cnt == stove_rand)
                     {
                         InGameGrid[first_x + x, first_y + y] = GridState.STOVE;
-                        GridObjList[first_x + x, first_y + y].GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
                         GridObjList[first_x + x, first_y + y].AddComponent<Stove>();
+                        GridObjList[first_x + x, first_y + y].GetComponent<Stove>().activestove = stove_active;
+                        GridObjList[first_x + x, first_y + y].GetComponent<Stove>().offstove = stove_off;
+                        GridObjList[first_x + x, first_y + y].GetComponent<Stove>().bombstove = stove_bomb;
                         goto A;
                     }
                     else if (x == 0 && y == 0 && stove_rand == 0)
@@ -114,6 +129,7 @@ public class InGameManager : Singleton<InGameManager>
 
         player_x = 0;
         player_y = 0;
+        starting = true;
 
         for (int i = 0; i < coupleCnt; i++)
         {
@@ -155,11 +171,14 @@ public class InGameManager : Singleton<InGameManager>
 
     void Update()
     {
-        PlayerMove();
-        PlayerPosMove();
-        PlayerAttack();
-        MatchesControll();
-        UIControll();
+        if (starting)
+        {
+            PlayerMove();
+            PlayerPosMove();
+            PlayerAttack();
+            MatchesControll();
+            UIControll();
+        }
     }
 
     void UIControll()

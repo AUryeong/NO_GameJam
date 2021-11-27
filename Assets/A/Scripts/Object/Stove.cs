@@ -9,10 +9,17 @@ public class Stove : BaseObject
     public static List<Stove> stoves = new List<Stove>();
     public int Gage = 0;
     public bool active = true;
+    public Sprite activestove;
+    public Sprite offstove;
+    public Sprite bombstove;
     private Image Gagebar;
     private float activeduration = 0;
     private float duration = 0;
 
+    void Start()
+    {
+        gameObject.GetComponent<SpriteRenderer>().sprite = activestove;
+    }
     void Update()
     {
         if(Gagebar == null)
@@ -29,6 +36,8 @@ public class Stove : BaseObject
             }
             if (Gage >= 20)
             {
+                gameObject.GetComponent<SpriteRenderer>().sprite = bombstove;
+                Singleton<InGameManager>.Instance.GameEnd();
                 //여기다가 게임오버 넣어주세요
             }
         }
@@ -40,6 +49,7 @@ public class Stove : BaseObject
                 active = true;
                 activeduration = 0;
                 duration = 0;
+                gameObject.GetComponent<SpriteRenderer>().sprite = activestove;
             }
         }
         if(Gagebar != null)
@@ -58,6 +68,7 @@ public class Stove : BaseObject
         Gage = Mathf.Max(0, Gage-5);
         if (Gage <= 0)
         {
+            gameObject.GetComponent<SpriteRenderer>().sprite = offstove;
             active = false;
         }
     }
