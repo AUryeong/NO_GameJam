@@ -8,6 +8,7 @@ public enum GridState
     BLANK,
     STOVE,
     COUPLE,
+    COUPLESTUN,
     GIFT,
     PLAYER
 }
@@ -122,6 +123,34 @@ public class InGameManager : Singleton<InGameManager>
     {
         PlayerMove();
         PlayerPosMove();
+        PlayerAttack();
+    }
+
+    void PlayerAttack()
+    {
+        GridState[] near_player = new GridState[4];
+        near_player = ReturnGridArray();
+
+        if(Input.GetKeyDown(KeyCode.Z)) //match attack
+        {
+
+        }
+        else if(Input.GetKeyDown(KeyCode.X)) //hammer attack
+        {
+
+        }
+    }
+
+    GridState[] ReturnGridArray()
+    {
+        GridState[] near_player_grid = new GridState[4];
+
+        near_player_grid[0] = InGameGrid[player_x - 1, player_y];
+        near_player_grid[1] = InGameGrid[player_x + 1, player_y];
+        near_player_grid[2] = InGameGrid[player_x, player_y - 1];
+        near_player_grid[3] = InGameGrid[player_x, player_y + 1];
+
+        return near_player_grid;
     }
 
     void PlayerMove()
