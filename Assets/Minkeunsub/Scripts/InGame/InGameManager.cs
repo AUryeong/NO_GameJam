@@ -179,7 +179,7 @@ public class InGameManager : Singleton<InGameManager>
     {
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if (InGameGrid[player_x, player_y - 1] == GridState.COUPLE && player_y - 1 > 0)
+            if (InGameGrid[player_x, player_y - 1] != GridState.BLANK && player_y - 1 > 0)
             {
                 return;
             }
@@ -190,7 +190,7 @@ public class InGameManager : Singleton<InGameManager>
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            if (InGameGrid[player_x, player_y + 1] == GridState.COUPLE && player_y + 1 < Grid_Y - 1)
+            if (InGameGrid[player_x, player_y + 1] != GridState.BLANK && player_y + 1 < Grid_Y - 1)
             {
                 return;
             }
@@ -201,7 +201,7 @@ public class InGameManager : Singleton<InGameManager>
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            if (InGameGrid[player_x - 1, player_y] == GridState.COUPLE && player_x - 1 > 0)
+            if (InGameGrid[player_x - 1, player_y] != GridState.BLANK && player_x - 1 > 0)
             {
                 return;
             }
@@ -212,7 +212,7 @@ public class InGameManager : Singleton<InGameManager>
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            if (InGameGrid[player_x + 1, player_y] == GridState.COUPLE && player_x + 1 < Grid_X - 1)
+            if (InGameGrid[player_x + 1, player_y] != GridState.BLANK && player_x + 1 < Grid_X - 1)
             {
                 return;
             }
