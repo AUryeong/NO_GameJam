@@ -9,6 +9,7 @@ public abstract class Interaction : MonoBehaviour
     Button button;
     protected virtual void Start()
     {
+        Debug.Log("asdasd");
         button = gameObject.GetComponent<Button>();
         button.onClick.AddListener(() => { Action(); });
     }

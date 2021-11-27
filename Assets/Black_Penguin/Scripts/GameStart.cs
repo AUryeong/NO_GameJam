@@ -28,8 +28,9 @@ public class GameStart : Interaction
         SceneManager.LoadScene("C-GameIntro");
     }
 
-    void Update()
+    protected override void Start()
     {
-
+        base.Start();
+        Time.timeScale = 1;
     }
 }

@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Minkeunsub/Scenes/C-GameIntro.unity
     guid: cd11c97594581b748bd914d690f54725
+  - enabled: 1
+    path: Assets/Minkeunsub/Scenes/D-InGameScene.unity
+    guid: 6f7864082684d934e824673530b1f920
   m_configObjects: {}
