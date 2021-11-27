@@ -128,27 +128,33 @@ public class InGameManager : Singleton<InGameManager>
 
     void PlayerAttack()
     {
-        GridState[] near_player = new GridState[4];
+        GameObject[] near_player = new GameObject[4];
         near_player = ReturnGridArray();
 
-        if(Input.GetKeyDown(KeyCode.Z)) //match attack
+        if(Input.GetKeyDown(KeyCode.Z)) //metch attack
         {
-
+            for (int i = 0; i < near_player.Length; i++)
+            {
+                near_player[i].GetComponent<BaseObject>().OnMetch();
+            }
         }
         else if(Input.GetKeyDown(KeyCode.X)) //hammer attack
         {
-
+            for (int i = 0; i < near_player.Length; i++)
+            {
+                near_player[i].GetComponent<BaseObject>().OnHammer();
+            }
         }
     }
 
-    GridState[] ReturnGridArray()
+    GameObject[] ReturnGridArray()
     {
-        GridState[] near_player_grid = new GridState[4];
+        GameObject[] near_player_grid = new GameObject[4];
 
-        near_player_grid[0] = InGameGrid[player_x - 1, player_y];
-        near_player_grid[1] = InGameGrid[player_x + 1, player_y];
-        near_player_grid[2] = InGameGrid[player_x, player_y - 1];
-        near_player_grid[3] = InGameGrid[player_x, player_y + 1];
+        near_player_grid[0] = GridObjList[player_x - 1, player_y];
+        near_player_grid[1] = GridObjList[player_x + 1, player_y];
+        near_player_grid[2] = GridObjList[player_x, player_y - 1];
+        near_player_grid[3] = GridObjList[player_x, player_y + 1];
 
         return near_player_grid;
     }
