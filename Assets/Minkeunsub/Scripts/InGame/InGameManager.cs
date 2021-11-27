@@ -45,6 +45,7 @@ public class InGameManager : Singleton<InGameManager>
     [Header("Sprites")]
     public Sprite gift_default;
     public Sprite gift_opened;
+    public Sprite gift_fired;
     public Sprite[] grass;
 
 
@@ -62,9 +63,20 @@ public class InGameManager : Singleton<InGameManager>
             {
                 InGameGrid[x, y] = GridState.BLANK;
                 Vector3 grid_pos = new Vector3(x - 7 + 1.46f, y - 4, 0);
-                int grass_rand = Random.Range(0, grass.Length);
                 GridObjList[x, y] = Instantiate(GridPrefab, grid_pos, Quaternion.identity, transform);
-                GridObjList[x, y].GetComponent<SpriteRenderer>().sprite = grass[grass_rand];
+                float random = Random.Range(0, 100);
+                if (random <= 70)
+                {
+                    GridObjList[x, y].GetComponent<SpriteRenderer>().sprite = grass[2];
+                }
+                else if (random <= 85)
+                {
+                    GridObjList[x, y].GetComponent<SpriteRenderer>().sprite = grass[0];
+                }
+                else
+                {
+                    GridObjList[x, y].GetComponent<SpriteRenderer>().sprite = grass[1];
+                }
             }
         }
 
@@ -132,6 +144,7 @@ public class InGameManager : Singleton<InGameManager>
             GridObjList[gift_rand_X, gift_rand_Y].AddComponent<Present>();
             GridObjList[gift_rand_X, gift_rand_Y].GetComponent<Present>().defaultsprite = gift_default;
             GridObjList[gift_rand_X, gift_rand_Y].GetComponent<Present>().opensprite = gift_opened;
+            GridObjList[gift_rand_X, gift_rand_Y].GetComponent<Present>().firedsprite = gift_fired;
         }
     }
 
@@ -210,7 +223,18 @@ public class InGameManager : Singleton<InGameManager>
     {
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if (InGameGrid[player_x, player_y - 1] != GridState.BLANK && player_y - 1 >= 0)
+            if (player_y > 0 && InGameGrid[player_x, player_y - 1] == GridState.GIFT)
+            {
+                if (GridObjList[player_x, player_y - 1].GetComponent<Present>().fired)
+                {
+                    player_y--;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else if (player_y - 1 < 0 || InGameGrid[player_x, player_y - 1] != GridState.BLANK)
             {
                 return;
             }
@@ -221,7 +245,18 @@ public class InGameManager : Singleton<InGameManager>
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            if (InGameGrid[player_x, player_y + 1] != GridState.BLANK && player_y + 1 < Grid_Y )
+            if (player_y < Grid_Y - 1 && InGameGrid[player_x, player_y + 1] == GridState.GIFT)
+            {
+                if (GridObjList[player_x, player_y + 1].GetComponent<Present>().fired)
+                {
+                    player_y++;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else if (player_y + 1 >= Grid_Y || InGameGrid[player_x, player_y + 1] != GridState.BLANK)
             {
                 return;
             }
@@ -232,7 +267,18 @@ public class InGameManager : Singleton<InGameManager>
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            if (InGameGrid[player_x - 1, player_y] != GridState.BLANK && player_x - 1 >= 0)
+            if (player_x > 0 && InGameGrid[player_x - 1, player_y] == GridState.GIFT)
+            {
+                if (GridObjList[player_x - 1, player_y].GetComponent<Present>().fired)
+                {
+                    player_x--;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else if (player_x - 1 < 0 || InGameGrid[player_x - 1, player_y] != GridState.BLANK)
             {
                 return;
             }
@@ -243,7 +289,18 @@ public class InGameManager : Singleton<InGameManager>
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            if (InGameGrid[player_x + 1, player_y] != GridState.BLANK && player_x + 1 < Grid_X )
+            if (player_x < Grid_X - 1 && InGameGrid[player_x + 1, player_y] == GridState.GIFT)
+            {
+                if (GridObjList[player_x + 1, player_y].GetComponent<Present>().fired)
+                {
+                    player_x++;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else if (player_x + 1 >= Grid_X || InGameGrid[player_x + 1, player_y] != GridState.BLANK)
             {
                 return;
             }

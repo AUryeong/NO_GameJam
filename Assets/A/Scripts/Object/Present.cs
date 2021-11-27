@@ -6,6 +6,9 @@ public class Present : BaseObject
 {
     public Sprite defaultsprite;
     public Sprite opensprite;
+    public Sprite firedsprite;
+    public bool opend = false;
+    public bool fired = false;
     void Start()
     {
         gameObject.GetComponent<SpriteRenderer>().sprite = defaultsprite;
@@ -13,11 +16,19 @@ public class Present : BaseObject
     public override void OnHammer()
     {
         base.OnHammer();
-        gameObject.GetComponent<SpriteRenderer>().sprite = opensprite;
+        if (!opend && !fired)
+        {
+            gameObject.GetComponent<SpriteRenderer>().sprite = opensprite;
+            opend = true;
+        }
     }
     public override void OnMetch()
     {
         base.OnMetch();
-        GameObject.Destroy(gameObject);
+        if(!opend && !fired)
+        {
+            gameObject.GetComponent<SpriteRenderer>().sprite = firedsprite;
+            fired = true;
+        }
     }
 }

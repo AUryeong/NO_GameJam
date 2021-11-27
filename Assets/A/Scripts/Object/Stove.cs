@@ -1,34 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class Stove : BaseObject
 {
     public static int MaxGage = 20;
+    public static List<Stove> stoves = new List<Stove>();
     public int Gage = 0;
     public bool active = true;
-    private float activeduration;
-    private float duration;
+    private Image Gagebar;
+    private float activeduration = 0;
+    private float duration = 0;
 
     void Update()
     {
+        if(Gagebar == null)
+        {
+            Gagebar = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Gagebar"), GameObject.Find("Stove GageBarParent").gameObject.transform).transform.GetChild(0).GetComponent<Image>();
+        }
         if (active)
         {
-            if (Gage <= 0)
+            duration += Time.deltaTime;
+            if (duration >= 1)
             {
-                active = false;
+                Gage += Random.Range(2, 5);
+                duration = 0;
             }
-            else
+            if (Gage >= 20)
             {
-                duration += Time.deltaTime;
-                if (duration >= 1)
-                {
-                    Gage += Random.Range(2, 5);
-                }
-                if(Gage >= 20)
-                {
-                    //여기다가 게임오버 넣어주세요
-                }
+                //여기다가 게임오버 넣어주세요
             }
         }
         else
@@ -37,16 +38,32 @@ public class Stove : BaseObject
             if (activeduration >= 5)
             {
                 active = true;
+                activeduration = 0;
                 duration = 0;
             }
         }
+        if(Gagebar != null)
+        {
+            Gagebar.GetComponent<RectTransform>().parent.position = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y + 0.6f, 0));
+            Gagebar.fillAmount = (float) Gage / MaxGage;
+        }
+    }
+
+    private void Awake()
+    {
     }
     public override void OnHammer()
     {
+        base.OnHammer();
         Gage = Mathf.Max(0, Gage-5);
+        if (Gage <= 0)
+        {
+            active = false;
+        }
     }
     public override void OnMetch()
     {
+        base.OnMetch();
         Gage = Mathf.Min(MaxGage, Gage + 5);
     }
 }
