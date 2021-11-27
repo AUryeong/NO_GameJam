@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public enum GridState
@@ -70,6 +71,8 @@ public class InGameManager : Singleton<InGameManager>
     
     void GridInitialSetting()
     {
+        stage = Singleton<Data>.Instance.stage;
+        Stove.stoves = new List<Stove>();
         for (int x = 0; x < Grid_X; x++)
         {
             for (int y = 0; y < Grid_Y; y++)
@@ -178,6 +181,7 @@ public class InGameManager : Singleton<InGameManager>
             PlayerAttack();
             MatchesControll();
             UIControll();
+            ClearCheck();
         }
     }
 
@@ -187,6 +191,14 @@ public class InGameManager : Singleton<InGameManager>
         scoreTxt.text = "Score: " + score.ToString();
     }
 
+    void ClearCheck()
+    {
+        if(Stove.stoves.Count >= Singleton<Data>.Instance.stage)
+        {
+            Singleton<Data>.Instance.stage++;
+            SceneManager.LoadScene("D-InGameScene");
+        }
+    }
     void MatchesControll()
     {
         hpBar.fillAmount = matchGauge / maxMatch;
@@ -219,19 +231,19 @@ public class InGameManager : Singleton<InGameManager>
     {
         GameObject[] near_player_grid = new GameObject[4];
 
-        if (player_x - 1 > 0 && InGameGrid[player_x - 1, player_y] != GridState.BLANK)
+        if (player_x - 1 >= 0 && InGameGrid[player_x - 1, player_y] != GridState.BLANK)
             near_player_grid[0] = GridObjList[player_x - 1, player_y];
         else near_player_grid[0] = null;
 
-        if (player_x + 1 < Grid_X - 1 && InGameGrid[player_x + 1, player_y] != GridState.BLANK)
+        if (player_x + 1 < Grid_X && InGameGrid[player_x + 1, player_y] != GridState.BLANK)
             near_player_grid[1] = GridObjList[player_x + 1, player_y];
         else near_player_grid[1] = null;
 
-        if (player_y - 1 > 0 && InGameGrid[player_x, player_y - 1] != GridState.BLANK)
+        if (player_y - 1 >= 0 && InGameGrid[player_x, player_y - 1] != GridState.BLANK)
             near_player_grid[2] = GridObjList[player_x, player_y - 1];
         else near_player_grid[2] = null;
 
-        if (player_y + 1 < Grid_Y - 1 && InGameGrid[player_x, player_y + 1] != GridState.BLANK)
+        if (player_y + 1 < Grid_Y && InGameGrid[player_x, player_y + 1] != GridState.BLANK)
             near_player_grid[3] = GridObjList[player_x, player_y + 1];
         else near_player_grid[3] = null;
 
