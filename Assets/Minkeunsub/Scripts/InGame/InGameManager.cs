@@ -23,6 +23,8 @@ public class InGameManager : Singleton<InGameManager>
 
     int player_x, player_y;
 
+    public GameObject GridObj;
+
     protected override void Awake()
     {
         GridInitialSetting();
@@ -35,6 +37,8 @@ public class InGameManager : Singleton<InGameManager>
             for (int y = 0; y < Grid_Y; y++)
             {
                 InGameGrid[x, y] = GridState.BLANK;
+                Vector3 grid_pos = new Vector3(x - 7, y - 4, 0);
+                Instantiate(GridObj, grid_pos, Quaternion.identity, transform);
             }
         }
 
@@ -89,7 +93,7 @@ public class InGameManager : Singleton<InGameManager>
 
     void PlayerPosMove()
     {
-        Vector3 playerPos = new Vector3(player_x - 7, player_y -  4, 0);
+        Vector3 playerPos = new Vector3(player_x - 7, player_y - 4, 0);
         player.transform.position = playerPos;
     }
 }
