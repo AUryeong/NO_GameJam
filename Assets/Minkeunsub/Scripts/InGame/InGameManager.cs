@@ -62,13 +62,13 @@ public class InGameManager : Singleton<InGameManager>
             {
                 for (int y = 0; y < 4; y++)
                 {
-                    if(cur_cnt == stove_rand)
+                    if (cur_cnt == stove_rand)
                     {
                         InGameGrid[first_x + x, first_y + y] = GridState.STOVE;
                         GridObjList[first_x + x, first_y + y].GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
                         goto A;
                     }
-                    else if(x == 0 && y == 0 && stove_rand == 0)
+                    else if (x == 0 && y == 0 && stove_rand == 0)
                     {
                         goto B;
                     }
@@ -131,18 +131,20 @@ public class InGameManager : Singleton<InGameManager>
         GameObject[] near_player = new GameObject[4];
         near_player = ReturnGridArray();
 
-        if(Input.GetKeyDown(KeyCode.Z)) //metch attack
+        if (Input.GetKeyDown(KeyCode.Z)) //metch attack
         {
             for (int i = 0; i < near_player.Length; i++)
             {
-                near_player[i].GetComponent<BaseObject>().OnMetch();
+                if (near_player[i] != null)
+                    near_player[i].GetComponent<BaseObject>().OnMetch();
             }
         }
-        else if(Input.GetKeyDown(KeyCode.X)) //hammer attack
+        else if (Input.GetKeyDown(KeyCode.X)) //hammer attack
         {
             for (int i = 0; i < near_player.Length; i++)
             {
-                near_player[i].GetComponent<BaseObject>().OnHammer();
+                if (near_player[i] != null)
+                    near_player[i].GetComponent<BaseObject>().OnHammer();
             }
         }
     }
@@ -151,10 +153,21 @@ public class InGameManager : Singleton<InGameManager>
     {
         GameObject[] near_player_grid = new GameObject[4];
 
-        near_player_grid[0] = GridObjList[player_x - 1, player_y];
-        near_player_grid[1] = GridObjList[player_x + 1, player_y];
-        near_player_grid[2] = GridObjList[player_x, player_y - 1];
-        near_player_grid[3] = GridObjList[player_x, player_y + 1];
+        if (player_x - 1 > 0)
+            near_player_grid[0] = GridObjList[player_x - 1, player_y];
+        else near_player_grid[0] = null;
+
+        if (player_x + 1 < Grid_X - 1)
+            near_player_grid[1] = GridObjList[player_x + 1, player_y];
+        else near_player_grid[1] = null;
+
+        if (player_y - 1 > 0)
+            near_player_grid[2] = GridObjList[player_x, player_y - 1];
+        else near_player_grid[2] = null;
+
+        if (player_y + 1 < Grid_Y - 1)
+            near_player_grid[3] = GridObjList[player_x, player_y + 1];
+        else near_player_grid[3] = null;
 
         return near_player_grid;
     }
@@ -163,7 +176,7 @@ public class InGameManager : Singleton<InGameManager>
     {
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if(InGameGrid[player_x, player_y - 1] == GridState.COUPLE && player_y - 1 > 0)
+            if (InGameGrid[player_x, player_y - 1] == GridState.COUPLE && player_y - 1 > 0)
             {
                 return;
             }
@@ -174,7 +187,7 @@ public class InGameManager : Singleton<InGameManager>
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            if(InGameGrid[player_x, player_y + 1] == GridState.COUPLE && player_y + 1 < Grid_Y - 1)
+            if (InGameGrid[player_x, player_y + 1] == GridState.COUPLE && player_y + 1 < Grid_Y - 1)
             {
                 return;
             }
