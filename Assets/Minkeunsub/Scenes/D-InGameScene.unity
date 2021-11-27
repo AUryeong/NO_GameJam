@@ -1073,6 +1073,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 2a738ebdeb27fd64fb11dc05170c6746, type: 3}
     - target: {fileID: 2374866025965862456, guid: e0722f285e526f64ea67e741a8ad0eae, type: 3}
+      propertyPath: couple_angry
+      value: 
+      objectReference: {fileID: 21300000, guid: 04f1088fa95ded94a957ad25e42c81a5, type: 3}
+    - target: {fileID: 2374866025965862456, guid: e0722f285e526f64ea67e741a8ad0eae, type: 3}
+      propertyPath: couple_heart
+      value: 
+      objectReference: {fileID: 21300000, guid: 02c21279c764163428b27dd19501a918, type: 3}
+    - target: {fileID: 2374866025965862456, guid: e0722f285e526f64ea67e741a8ad0eae, type: 3}
       propertyPath: gift_default
       value: 
       objectReference: {fileID: 21300000, guid: 71c9bce1070954a4b9408490c1db9a9d, type: 3}
@@ -1081,9 +1089,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 3ec4d135b2ff4ba41a827f5dcd2c98b6, type: 3}
     - target: {fileID: 2374866025965862456, guid: e0722f285e526f64ea67e741a8ad0eae, type: 3}
+      propertyPath: couple_default
+      value: 
+      objectReference: {fileID: 21300000, guid: a0b9914ffaa07bf4ca94fa7c896aac06, type: 3}
+    - target: {fileID: 2374866025965862456, guid: e0722f285e526f64ea67e741a8ad0eae, type: 3}
       propertyPath: grass.Array.size
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2374866025965862456, guid: e0722f285e526f64ea67e741a8ad0eae, type: 3}
+      propertyPath: couple_mindcontrol
+      value: 
+      objectReference: {fileID: 21300000, guid: 16ee52ee34fa75c4cae32567b1deb65c, type: 3}
     - target: {fileID: 2374866025965862456, guid: e0722f285e526f64ea67e741a8ad0eae, type: 3}
       propertyPath: grass.Array.data[0]
       value: 
@@ -1326,17 +1342,37 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4409911024226147826, guid: c8332c383afcc9c44bf25d583fbdf6e5, type: 3}
+      propertyPath: sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: da6f089ed5f062045ab604639844b75f, type: 3}
+    - target: {fileID: 4409911024226147826, guid: c8332c383afcc9c44bf25d583fbdf6e5, type: 3}
+      propertyPath: sprite2
+      value: 
+      objectReference: {fileID: 21300000, guid: 86092b4bf84c48a4180f0d6dc0a98be8, type: 3}
+    - target: {fileID: 4409911024226147826, guid: c8332c383afcc9c44bf25d583fbdf6e5, type: 3}
+      propertyPath: sprite3
+      value: 
+      objectReference: {fileID: 21300000, guid: b88ae9f058de04843983942007c1c07a, type: 3}
+    - target: {fileID: 4409911024226147826, guid: c8332c383afcc9c44bf25d583fbdf6e5, type: 3}
+      propertyPath: sprite4
+      value: 
+      objectReference: {fileID: 21300000, guid: ef355082d7f95b245bb91c2e39f0f745, type: 3}
+    - target: {fileID: 4409911024226147826, guid: c8332c383afcc9c44bf25d583fbdf6e5, type: 3}
+      propertyPath: sprite5
+      value: 
+      objectReference: {fileID: 21300000, guid: 1ed71f060e4752f44b1ca167688d5576, type: 3}
     - target: {fileID: 4409911024226147827, guid: c8332c383afcc9c44bf25d583fbdf6e5, type: 3}
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4409911024226147827, guid: c8332c383afcc9c44bf25d583fbdf6e5, type: 3}
       propertyPath: m_LocalScale.x
-      value: 5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4409911024226147827, guid: c8332c383afcc9c44bf25d583fbdf6e5, type: 3}
       propertyPath: m_LocalScale.y
-      value: 5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4409911024226147827, guid: c8332c383afcc9c44bf25d583fbdf6e5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1378,6 +1414,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4409911024226147829, guid: c8332c383afcc9c44bf25d583fbdf6e5, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1ed71f060e4752f44b1ca167688d5576, type: 3}
     - target: {fileID: 4409911024226147829, guid: c8332c383afcc9c44bf25d583fbdf6e5, type: 3}
       propertyPath: m_DrawMode
       value: 0
@@ -1517,7 +1557,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: d6fa5ef5b0f38fd4782003bf904bf8d6, type: 3}
-  m_Type: 0
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0

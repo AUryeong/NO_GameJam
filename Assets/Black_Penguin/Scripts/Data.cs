@@ -7,9 +7,13 @@ public class Data : Singleton<Data>
     public int score;
     public int stage = 1;
 
-    void Highscoreset(int value)
+    public void SetHighscore(int value)
     {
-        PlayerPrefs.SetInt("Highscore",value);
+        PlayerPrefs.SetInt("Highscore", value);
+    }
+    public int GetHighSocre()
+    {
+        return PlayerPrefs.GetInt("Highscore");
     }
     void Stageset(int value)
     {

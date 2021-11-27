@@ -19,6 +19,7 @@ public class Present : BaseObject
         if (!opend && !fired)
         {
             gameObject.GetComponent<SpriteRenderer>().sprite = opensprite;
+            Data.Instance.score += 50;
             opend = true;
         }
     }
@@ -28,6 +29,7 @@ public class Present : BaseObject
         if(!opend && !fired)
         {
             gameObject.GetComponent<SpriteRenderer>().sprite = firedsprite;
+            Data.Instance.score -= 50;
             fired = true;
         }
     }

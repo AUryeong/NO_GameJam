@@ -28,6 +28,7 @@ public class InGameManager : Singleton<InGameManager>
     int first_x, first_y;
 
     public GameObject GridPrefab;
+    private float MatchDuration;
 
     public int stage; //range to 1~8
     public float score;
@@ -36,7 +37,7 @@ public class InGameManager : Singleton<InGameManager>
     public int giftCnt;
     public bool starting = false;
 
-    public float maxMatch;
+    public static float maxMatch = 150;
     public float matchGauge;
 
     [Header("UI Objects")]
@@ -52,6 +53,10 @@ public class InGameManager : Singleton<InGameManager>
     public Sprite stove_active;
     public Sprite stove_off;
     public Sprite stove_bomb;
+    public Sprite couple_default;
+    public Sprite couple_heart;
+    public Sprite couple_angry;
+    public Sprite couple_mindcontrol;
     public Sprite[] grass;
 
 
@@ -59,6 +64,11 @@ public class InGameManager : Singleton<InGameManager>
     {
         Time.timeScale = 0;
         starting = false;
+        if(Data.Instance.GetHighSocre() <= Data.Instance.score)
+        {
+            Data.Instance.SetHighscore(Data.Instance.score);
+        }
+        Data.Instance.score = 0;
         gameend.SetActive(true);
     }
 
@@ -66,13 +76,14 @@ public class InGameManager : Singleton<InGameManager>
     {
         gameend.SetActive(false);
         GridInitialSetting();
-        matchGauge = maxMatch;
     }
     
     void GridInitialSetting()
     {
         stage = Singleton<Data>.Instance.stage;
         Stove.stoves = new List<Stove>();
+        MatchDuration = 0;
+        matchGauge = maxMatch;
         for (int x = 0; x < Grid_X; x++)
         {
             for (int y = 0; y < Grid_Y; y++)
@@ -146,7 +157,9 @@ public class InGameManager : Singleton<InGameManager>
 
             InGameGrid[couple_rand_X, couple_rand_Y] = GridState.COUPLE;
             GridObjList[couple_rand_X, couple_rand_Y].AddComponent<Couple>();
-            GridObjList[couple_rand_X, couple_rand_Y].GetComponent<SpriteRenderer>().color = new Color(0, 1, 0);
+            GridObjList[couple_rand_X, couple_rand_Y].GetComponent<Couple>().sprite = (Random.Range(1,3) == 1) ? couple_heart: couple_default;
+            GridObjList[couple_rand_X, couple_rand_Y].GetComponent<Couple>().mindcontrol = couple_mindcontrol;
+            GridObjList[couple_rand_X, couple_rand_Y].GetComponent<Couple>().angry = couple_angry;
         }
 
         for (int i = 0; i < giftCnt; i++)
@@ -187,20 +200,29 @@ public class InGameManager : Singleton<InGameManager>
 
     void UIControll()
     {
+        score = Data.Instance.score;
         stageTxt.text = "Stage " + stage.ToString();
         scoreTxt.text = "Score: " + score.ToString();
     }
 
     void ClearCheck()
     {
-        if(Stove.stoves.Count >= Singleton<Data>.Instance.stage)
+        if (Stove.stoves.Count >= Singleton<Data>.Instance.stage)
         {
+            Data.Instance.score += stage * 100;
+            Data.Instance.score += (int)matchGauge;
             Singleton<Data>.Instance.stage++;
             SceneManager.LoadScene("D-InGameScene");
         }
     }
     void MatchesControll()
     {
+        MatchDuration += Time.deltaTime;
+        if(MatchDuration >= 1)
+        {
+            MatchDuration = 0;
+            matchGauge--;
+        }
         hpBar.fillAmount = matchGauge / maxMatch;
     }
 
@@ -211,6 +233,7 @@ public class InGameManager : Singleton<InGameManager>
 
         if (Input.GetKeyDown(KeyCode.Z)) //metch attack
         {
+            player.MatchAttack();
             for (int i = 0; i < near_player.Length; i++)
             {
                 if (near_player[i] != null)
@@ -219,6 +242,8 @@ public class InGameManager : Singleton<InGameManager>
         }
         else if (Input.GetKeyDown(KeyCode.X)) //hammer attack
         {
+            player.HammerAttack();
+            matchGauge -= 5;
             for (int i = 0; i < near_player.Length; i++)
             {
                 if (near_player[i] != null)
@@ -265,6 +290,17 @@ public class InGameManager : Singleton<InGameManager>
                     return;
                 }
             }
+            else if (player_y > 0 && InGameGrid[player_x, player_y - 1] == GridState.COUPLE)
+            {
+                if (GridObjList[player_x, player_y - 1].GetComponent<Couple>().mindcontrolling)
+                {
+                    player_y--;
+                }
+                else
+                {
+                    return;
+                }
+            }
             else if (player_y - 1 < 0 || InGameGrid[player_x, player_y - 1] != GridState.BLANK)
             {
                 return;
@@ -279,6 +315,17 @@ public class InGameManager : Singleton<InGameManager>
             if (player_y < Grid_Y - 1 && InGameGrid[player_x, player_y + 1] == GridState.GIFT)
             {
                 if (GridObjList[player_x, player_y + 1].GetComponent<Present>().fired)
+                {
+                    player_y++;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else if (player_y < Grid_Y - 1 && InGameGrid[player_x, player_y + 1] == GridState.COUPLE)
+            {
+                if (GridObjList[player_x, player_y + 1].GetComponent<Couple>().mindcontrolling)
                 {
                     player_y++;
                 }
@@ -309,6 +356,17 @@ public class InGameManager : Singleton<InGameManager>
                     return;
                 }
             }
+            else if (player_x > 0 && InGameGrid[player_x - 1, player_y] == GridState.COUPLE)
+            {
+                if (GridObjList[player_x - 1, player_y].GetComponent<Couple>().mindcontrolling)
+                {
+                    player_x--;
+                }
+                else
+                {
+                    return;
+                }
+            }
             else if (player_x - 1 < 0 || InGameGrid[player_x - 1, player_y] != GridState.BLANK)
             {
                 return;
@@ -323,6 +381,17 @@ public class InGameManager : Singleton<InGameManager>
             if (player_x < Grid_X - 1 && InGameGrid[player_x + 1, player_y] == GridState.GIFT)
             {
                 if (GridObjList[player_x + 1, player_y].GetComponent<Present>().fired)
+                {
+                    player_x++;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else if (player_x < Grid_X - 1 && InGameGrid[player_x + 1, player_y] == GridState.COUPLE)
+            {
+                if (GridObjList[player_x + 1, player_y].GetComponent<Couple>().mindcontrolling)
                 {
                     player_x++;
                 }

@@ -7,5 +7,6 @@ public class HighScore : Interaction
 {
     protected override void Action()
     {
+        Debug.Log(Data.Instance.GetHighSocre());
     }
 }

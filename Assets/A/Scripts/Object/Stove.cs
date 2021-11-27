@@ -63,9 +63,6 @@ public class Stove : BaseObject
         }
     }
 
-    private void Awake()
-    {
-    }
     public override void OnHammer()
     {
         base.OnHammer();
