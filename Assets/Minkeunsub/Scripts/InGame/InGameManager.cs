@@ -71,7 +71,7 @@ public class InGameManager : Singleton<InGameManager>
     
     void GridInitialSetting()
     {
-        stage = Singleton<Data>.Instance.stage;
+        stage = Data.Instance.stage;
         Stove.stoves = new List<Stove>();
         for (int x = 0; x < Grid_X; x++)
         {
