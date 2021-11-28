@@ -43,5 +43,9 @@ public class PlayerController : MonoBehaviour
         gameObject.GetComponent<SpriteRenderer>().sprite = sprite5;
         yield return null;
     }
+    private void Start()
+    {
+        SoundManager.Instance.ChangeClip("인게임브금", true);
 
+    }
 }

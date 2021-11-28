@@ -235,6 +235,7 @@ public class InGameManager : Singleton<InGameManager>
 
         if (Input.GetKeyDown(KeyCode.Z)) //metch attack
         {
+            Debug.Log("己成");
             SoundManager.Instance.ChangeClip("己成", false);
 
             player.MatchAttack();
@@ -244,8 +245,9 @@ public class InGameManager : Singleton<InGameManager>
                     near_player[i].GetComponent<BaseObject>().OnMetch();
             }
         }
-        else if (Input.GetKeyDown(KeyCode.X)) //hammer attack
+        if (Input.GetKeyDown(KeyCode.X)) //hammer attack
         {
+            Debug.Log("噶摹");
             SoundManager.Instance.ChangeClip("噶摹", false);
 
             player.HammerAttack();

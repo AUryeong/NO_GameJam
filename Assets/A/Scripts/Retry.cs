@@ -8,6 +8,7 @@ public class Retry : Interaction
 {
     protected override void Action()
     {
+        SoundManager.Instance.ChangeClip("메인브금", true);
         Time.timeScale = 1;
         SceneManager.LoadScene("B-MainScene");
     }

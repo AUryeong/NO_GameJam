@@ -1082,6 +1082,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8cdb44b99466bc479006a92cb204213, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hammer: {fileID: 2013388333}
 --- !u!114 &501183160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1427,6 +1428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   metch: {fileID: 110094877}
+  hammer: {fileID: 2013388333}
   tmp: {fileID: 421660485}
 --- !u!61 &1059397105
 BoxCollider2D:
@@ -2139,6 +2141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   metch: {fileID: 110094877}
+  hammer: {fileID: 2013388333}
   tmp: {fileID: 117285893}
 --- !u!1 &2108329615
 GameObject:
