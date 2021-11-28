@@ -15,6 +15,8 @@ public class Present : BaseObject
     }
     public override void OnHammer()
     {
+        SoundManager.Instance.ChangeClip("º±π∞∞≥∫¿", false);
+
         base.OnHammer();
         if (!opend && !fired)
         {
@@ -27,7 +29,9 @@ public class Present : BaseObject
     public override void OnMetch()
     {
         base.OnMetch();
-        if(!opend && !fired)
+        SoundManager.Instance.ChangeClip("º±∫“∫“≈Ω", false);
+
+        if (!opend && !fired)
         {
             gameObject.GetComponent<SpriteRenderer>().sprite = firedsprite;
             Data.Instance.score -= 50;

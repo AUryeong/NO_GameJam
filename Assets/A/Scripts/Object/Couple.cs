@@ -33,6 +33,8 @@ public class Couple : BaseObject
     }
     public override void OnMetch()
     {
+        SoundManager.Instance.ChangeClip("Ä¿ÇÃ", false);
+
         base.OnMetch();
         if (!mindcontrolling && !angrying)
         {

@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator Match()
     {
+        SoundManager.Instance.ChangeClip("¼º³É", false);
+
         gameObject.GetComponent<SpriteRenderer>().sprite = sprite4;
         yield return new WaitForSeconds(0.1f);
         gameObject.GetComponent<SpriteRenderer>().sprite = sprite5;
@@ -30,6 +32,8 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator Hammer()
     {
+        SoundManager.Instance.ChangeClip("¸ÁÄ¡", false);
+
         gameObject.GetComponent<SpriteRenderer>().sprite = sprite;
         yield return new WaitForSeconds(0.1f);
         gameObject.GetComponent<SpriteRenderer>().sprite = sprite2;

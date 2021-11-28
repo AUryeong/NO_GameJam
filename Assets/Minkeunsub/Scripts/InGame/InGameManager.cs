@@ -63,6 +63,8 @@ public class InGameManager : Singleton<InGameManager>
     public void GameEnd()
     {
         Time.timeScale = 0;
+        SoundManager.Instance.ChangeClip("게임오버", false);
+
         starting = false;
         if(Data.Instance.GetHighSocre() <= Data.Instance.score)
         {
@@ -233,6 +235,8 @@ public class InGameManager : Singleton<InGameManager>
 
         if (Input.GetKeyDown(KeyCode.Z)) //metch attack
         {
+            SoundManager.Instance.ChangeClip("성냥", false);
+
             player.MatchAttack();
             for (int i = 0; i < near_player.Length; i++)
             {
@@ -242,6 +246,8 @@ public class InGameManager : Singleton<InGameManager>
         }
         else if (Input.GetKeyDown(KeyCode.X)) //hammer attack
         {
+            SoundManager.Instance.ChangeClip("망치", false);
+
             player.HammerAttack();
             matchGauge -= 5;
             for (int i = 0; i < near_player.Length; i++)
@@ -279,6 +285,8 @@ public class InGameManager : Singleton<InGameManager>
     {
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
+            SoundManager.Instance.ChangeClip("이동", false);
+
             if (player_y > 0 && InGameGrid[player_x, player_y - 1] == GridState.GIFT)
             {
                 if (GridObjList[player_x, player_y - 1].GetComponent<Present>().fired)
@@ -312,6 +320,8 @@ public class InGameManager : Singleton<InGameManager>
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
+            SoundManager.Instance.ChangeClip("이동", false);
+
             if (player_y < Grid_Y - 1 && InGameGrid[player_x, player_y + 1] == GridState.GIFT)
             {
                 if (GridObjList[player_x, player_y + 1].GetComponent<Present>().fired)
@@ -345,6 +355,8 @@ public class InGameManager : Singleton<InGameManager>
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
+            SoundManager.Instance.ChangeClip("이동", false);
+
             if (player_x > 0 && InGameGrid[player_x - 1, player_y] == GridState.GIFT)
             {
                 if (GridObjList[player_x - 1, player_y].GetComponent<Present>().fired)
@@ -378,6 +390,8 @@ public class InGameManager : Singleton<InGameManager>
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
+            SoundManager.Instance.ChangeClip("이동", false);
+
             if (player_x < Grid_X - 1 && InGameGrid[player_x + 1, player_y] == GridState.GIFT)
             {
                 if (GridObjList[player_x + 1, player_y].GetComponent<Present>().fired)
