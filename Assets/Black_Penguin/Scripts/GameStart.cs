@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class GameStart : Interaction
 {
     [SerializeField] Image flash;
+    [SerializeField] Button button;
+    [SerializeField] GameObject hammer;
     protected override void Action()
     {
         StartCoroutine(StartScene());
@@ -31,6 +33,14 @@ public class GameStart : Interaction
     protected override void Start()
     {
         base.Start();
-        Time.timeScale = 1;
+        Time.timeScale = 1; 
+    }
+    private void Update()
+    {
+            
+    }
+    void Hammer()
+    {
+
     }
 }

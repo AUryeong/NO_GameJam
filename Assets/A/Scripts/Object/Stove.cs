@@ -37,7 +37,7 @@ public class Stove : BaseObject
             if (Gage >= 20)
             {
                 gameObject.GetComponent<SpriteRenderer>().sprite = bombstove;
-                Singleton<InGameManager>.Instance.GameEnd();
+                InGameManager.Instance.GameEnd();
                 //여기다가 게임오버 넣어주세요
             }
         }
@@ -58,7 +58,7 @@ public class Stove : BaseObject
         }
         if(Gagebar != null)
         {
-            Gagebar.GetComponent<RectTransform>().parent.position = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y + 0.6f, 0));
+            Gagebar.GetComponent<RectTransform>().parent.position = new Vector3(transform.position.x, transform.position.y + 0.6f, 0);
             Gagebar.fillAmount = (float) Gage / MaxGage;
         }
     }
