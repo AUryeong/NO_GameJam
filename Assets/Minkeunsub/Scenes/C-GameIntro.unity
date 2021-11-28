@@ -453,7 +453,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toonSprite:
-  - {fileID: 21300000, guid: 846b424fd8ca5904ba74d5038473ad1b, type: 3}
   - {fileID: 21300000, guid: 74ee6612b9308b145949e84758dd5b33, type: 3}
   - {fileID: 21300000, guid: 53a29d6ef0bf55f459e10c15115958f7, type: 3}
   - {fileID: 21300000, guid: 5469cd35997f8fb48b74511a86b5d266, type: 3}
@@ -461,6 +460,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: bccc33ca1c156974fb81c4e8d4daacbd, type: 3}
   - {fileID: 21300000, guid: 095022c261bc7dc499c9dd7e7d5565a5, type: 3}
   - {fileID: 21300000, guid: f0492019168e6434b83dff6b6a66cf78, type: 3}
+  - {fileID: 21300000, guid: 846b424fd8ca5904ba74d5038473ad1b, type: 3}
   toonImage: {fileID: 1070195500}
   sceneChangeButton: {fileID: 237658892}
 --- !u!1 &1070195498
