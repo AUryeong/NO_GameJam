@@ -30,19 +30,19 @@ public class GameIntroUIManager : MonoBehaviour
 
     IEnumerator Manga()
     {
-        for (int a = 0; a < 3; a++)
+        for (int a = 0; a < 2; a++)
         {
-            yield return new WaitForSeconds(2);
             toonImage.sprite = toonSprite[a];
+            yield return new WaitForSeconds(1f);
         }
 
-        int i = 3;
+        int i = 2;
         int max = toonSprite.Length;
         sceneChangeButton.gameObject.SetActive(true);
         while (true)
         {
             if (i < max - 1) i++;
-            else i = 3;
+            else i = 2;
             toonImage.sprite = toonSprite[i];
             yield return new WaitForSeconds(0.05f);
         }
