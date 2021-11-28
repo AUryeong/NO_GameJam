@@ -2,25 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Developers : Interaction
 {
-    [SerializeField] Image developers;
-    bool isActive;
+    [SerializeField] Image metch;
+    [SerializeField] TextMeshProUGUI tmp;
+
     protected override void Action()
     {
 
-        developers.gameObject.SetActive(true);
-        isActive = true;
     }
-    private void Update()
+    private void OnMouseUp()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (isActive)
-            {
-                developers.gameObject.SetActive(false);
-            }
-        }
+        metch.gameObject.SetActive(false);
+        tmp.gameObject.SetActive(true);
+    }
+    private void OnMouseExit()
+    {
+        tmp.gameObject.SetActive(false);
+        metch.gameObject.SetActive(true);
     }
 }
