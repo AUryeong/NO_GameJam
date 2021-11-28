@@ -33,7 +33,7 @@ public class GameIntroUIManager : MonoBehaviour
         for (int a = 0; a < 2; a++)
         {
             toonImage.sprite = toonSprite[a];
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2f);
         }
 
         int i = 2;

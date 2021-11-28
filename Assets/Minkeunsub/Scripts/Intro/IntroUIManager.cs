@@ -11,6 +11,7 @@ public class IntroUIManager : MonoBehaviour
 
     void Start()
     {
+        SoundManager.Instance.ChangeClip("메인브금", true);
         StartCoroutine(Manga());
     }
 

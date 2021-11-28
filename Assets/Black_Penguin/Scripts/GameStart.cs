@@ -13,6 +13,7 @@ public class GameStart : Interaction
     protected override void Action()
     {
         StartCoroutine(StartScene());
+        SoundManager.Instance.ChangeClip("버튼클릭", false);
     }
 
     IEnumerator StartScene()

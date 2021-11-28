@@ -11,6 +11,7 @@ public class Developers : Interaction
 
     protected override void Action()
     {
+        SoundManager.Instance.ChangeClip("버튼클릭", false);
 
     }
     private void OnMouseUp()
