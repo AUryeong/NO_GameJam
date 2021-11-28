@@ -7,8 +7,9 @@ using UnityEngine.UI;
 public class GameStart : Interaction
 {
     [SerializeField] Image flash;
-    [SerializeField] Button button;
-    [SerializeField] GameObject hammer;
+    [SerializeField] Image hammer;
+    [SerializeField] Image hammer2;
+    [SerializeField] Sprite hammmmmer;
     protected override void Action()
     {
         StartCoroutine(StartScene());
@@ -39,8 +40,10 @@ public class GameStart : Interaction
     {
             
     }
-    void Hammer()
+    private void OnMouseOver()
     {
-
+        hammer.transform.position = new Vector3(transform.position.x - 2, transform.position.y, 0);
+        hammer2.gameObject.SetActive(true);
+        hammer2.sprite = hammmmmer;
     }
 }
